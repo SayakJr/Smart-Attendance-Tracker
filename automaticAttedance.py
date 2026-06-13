@@ -11,15 +11,36 @@ import time
 import tkinter.ttk as tkk
 import tkinter.font as font
 
-haarcasecade_path = "haarcascade_frontalface_default.xml"
-trainimagelabel_path = (
-    "TrainingImageLabel\\Trainner.yml"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+haarcasecade_path = os.path.join(
+    BASE_DIR,
+    "haarcascade_frontalface_default.xml"
 )
-trainimage_path = "TrainingImage"
-studentdetail_path = (
-    "StudentDetails\\studentdetails.csv"
+
+trainimagelabel_path = os.path.join(
+    BASE_DIR,
+    "TrainingImageLabel",
+    "Trainner.yml"
 )
-attendance_path = "Attendance"
+
+trainimage_path = os.path.join(
+    BASE_DIR,
+    "TrainingImage"
+)
+
+studentdetail_path = os.path.join(
+    BASE_DIR,
+    "StudentDetails",
+    "studentdetails.csv"
+)
+
+attendance_path = os.path.join(
+    BASE_DIR,
+    "Attendance"
+)
+
+os.makedirs(attendance_path, exist_ok=True)
 # for choose subject and fill attendance
 def subjectChoose(text_to_speech):
     def FillAttendance():
@@ -75,14 +96,11 @@ def subjectChoose(text_to_speech):
                             timeStamp = datetime.datetime.fromtimestamp(ts).strftime(
                                 "%H:%M:%S"
                             )
-                            aa = df.loc[df["Enrollment"] == Id]["Name"].values
+                            aa = df.loc[df["Enrollment"] == Id]["Name"].values[0]
                             global tt
-                            tt = str(Id) + "-" + aa
+                            tt= f"{Id}-{aa}"
                             # En='1604501160'+str(Id)
-                            attendance.loc[len(attendance)] = [
-                                Id,
-                                aa,
-                            ]
+                            attendance.loc[len(attendance)] = [Id, aa]
                             cv2.rectangle(im, (x, y), (x + w, y + h), (0, 260, 0), 4)
                             cv2.putText(
                                 im, str(tt), (x + h, y), font, 1, (255, 255, 0,), 4
@@ -117,18 +135,9 @@ def subjectChoose(text_to_speech):
                 path = os.path.join(attendance_path, Subject)
                 if not os.path.exists(path):
                     os.makedirs(path)
-                fileName = (
-                    f"{path}/"
-                    + Subject
-                    + "_"
-                    + date
-                    + "_"
-                    + Hour
-                    + "-"
-                    + Minute
-                    + "-"
-                    + Second
-                    + ".csv"
+                fileName = os.path.join(
+                    path,
+                    f"{Subject}_{date}_{Hour}-{Minute}-{Second}.csv"
                 )
                 attendance = attendance.drop_duplicates(["Enrollment"], keep="first")
                 print(attendance)
@@ -157,7 +166,7 @@ def subjectChoose(text_to_speech):
                 root = tkinter.Tk()
                 root.title("Attendance of " + Subject)
                 root.configure(background="black")
-                cs = os.path.join(path, fileName)
+                cs = fileName
                 print(cs)
                 with open(cs, newline="") as file:
                     reader = csv.reader(file)
@@ -225,9 +234,12 @@ def subjectChoose(text_to_speech):
             t = "Please enter the subject name!!!"
             text_to_speech(t)
         else:
-            os.startfile(
-                f"Attendance\\{sub}"
+            folder_path = os.path.join(
+                attendance_path,
+                sub
             )
+            if os.path.exists(folder_path):
+                os.startfile(folder_path)
 
     attf = tk.Button(
         subject,

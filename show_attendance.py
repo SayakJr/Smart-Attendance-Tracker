@@ -5,7 +5,12 @@ import tkinter
 import csv
 import tkinter as tk
 from tkinter import *
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+attendance_path = os.path.join(
+    BASE_DIR,
+    "Attendance"
+)
 def subjectchoose(text_to_speech):
     def calculate_attendance():
         Subject = tx.get()
@@ -13,24 +18,57 @@ def subjectchoose(text_to_speech):
             t='Please enter the subject name.'
             text_to_speech(t)
     
-        filenames = glob(
-            f"Attendance\\{Subject}\\{Subject}*.csv"
+        subject_path = os.path.join(
+            attendance_path,
+            Subject
         )
+
+        filenames = glob(
+            os.path.join(
+                subject_path,
+                f"{Subject}*.csv"
+            )
+        )
+        if len(filenames) == 0:
+            text_to_speech(
+                f"No attendance records found for {Subject}"
+            )
+            return
         df = [pd.read_csv(f) for f in filenames]
         newdf = df[0]
         for i in range(1, len(df)):
-            newdf = newdf.merge(df[i], how="outer")
+            newdf = newdf.merge(
+                df[i],
+                on=["Enrollment", "Name"],
+                how="outer"
+            )
+
         newdf.fillna(0, inplace=True)
-        newdf["Attendance"] = 0
+        newdf["Attendance"] = ""
+
         for i in range(len(newdf)):
-            newdf["Attendance"].iloc[i] = str(int(round(newdf.iloc[i, 2:-1].mean() * 100)))+'%'
+            percentage = int(
+                round(
+                    newdf.iloc[i, 2:-1].mean() * 100
+                )
+            )
+            newdf.loc[i, "Attendance"] = f"{percentage}%"
             #newdf.sort_values(by=['Enrollment'],inplace=True)
-        newdf.to_csv(f"Attendance\\{Subject}\\attendance.csv", index=False)
+
+        attendance_file = os.path.join(
+            subject_path,
+            "attendance.csv"
+        )
+
+        newdf.to_csv(
+            attendance_file,
+            index=False
+        )
 
         root = tkinter.Tk()
         root.title("Attendance of "+Subject)
         root.configure(background="black")
-        cs = f"Attendance\\{Subject}\\attendance.csv"
+        cs = attendance_file
         with open(cs) as file:
             reader = csv.reader(file)
             r = 0
@@ -83,9 +121,17 @@ def subjectchoose(text_to_speech):
             t="Please enter the subject name!!!"
             text_to_speech(t)
         else:
-            os.startfile(
-            f"Attendance\\{sub}"
+            folder_path = os.path.join(
+                attendance_path,
+                sub
             )
+
+            if os.path.exists(folder_path):
+                os.startfile(folder_path)
+            else:
+                text_to_speech(
+                    f"No attendance folder found for {sub}"
+                )
 
 
     attf = tk.Button(
