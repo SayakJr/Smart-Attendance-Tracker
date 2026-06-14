@@ -192,6 +192,7 @@ def subjectChoose(text_to_speech):
                 root.mainloop()
                 print(attendance)
             except:
+                print("ERROR:", e)
                 f = "No Face found for attendance"
                 text_to_speech(f)
                 cv2.destroyAllWindows()

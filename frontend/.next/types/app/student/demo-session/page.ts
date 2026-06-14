@@ -1,4 +1,4 @@
-// File: D:\Experiment\Attendance-Management-system-using-face-recognition\frontend\app\student\demo-session\page.tsx
+// File: C:\Users\Sayak\Desktop\Att\Attendace-Tracker\frontend\app\student\demo-session\page.tsx
 import * as entry from '../../../../../app/student/demo-session/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

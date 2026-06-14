@@ -1,8 +1,8 @@
-// File: D:\Experiment\Attendance-Management-system-using-face-recognition\frontend\app\student\registrationform\page.tsx
-import * as entry from '../../../../../app/student/registrationform/page.js'
+// File: C:\Users\Sayak\Desktop\Att\Attendace-Tracker\frontend\app\student\view-attendance\page.tsx
+import * as entry from '../../../../../app/student/view-attendance/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../../app/student/registrationform/page.js')
+type TEntry = typeof import('../../../../../app/student/view-attendance/page.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
