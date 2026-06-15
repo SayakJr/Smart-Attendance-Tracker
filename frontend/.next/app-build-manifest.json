@@ -16,30 +16,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/signin/page.js"
     ],
-    "/dashboard/page": [
+    "/teacher/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/teacher/dashboard/page.js"
     ],
-    "/student/updatedetails/page": [
+    "/teacher/start-session/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/student/updatedetails/page.js"
-    ],
-    "/student/demo-session/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/student/demo-session/page.js"
+      "static/chunks/app/teacher/start-session/page.js"
     ],
     "/student/view-attendance/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/student/view-attendance/page.js"
-    ],
-    "/signup/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/signup/page.js"
     ]
   }
 }

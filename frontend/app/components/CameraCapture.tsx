@@ -26,6 +26,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [cameraStatus, setCameraStatus] = useState<"loading" | "active" | "stopped">("stopped");
   const [cameraError, setCameraError] = useState<string>("");
 
@@ -35,6 +36,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
       });
+      streamRef.current = stream;
       if (videoRef.current) videoRef.current.srcObject = stream;
       setCameraStatus("active");
     } catch (err) {
@@ -47,6 +49,10 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
   const stopCamera = () => {
     const stream = videoRef.current?.srcObject as MediaStream;
     stream?.getTracks().forEach((track) => track.stop());
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
     if (videoRef.current) videoRef.current.srcObject = null;
     if (intervalRef.current) clearInterval(intervalRef.current);
     setCameraStatus("stopped");
