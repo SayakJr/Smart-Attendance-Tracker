@@ -32,10 +32,10 @@ export default function HomePage() {
               Testimonials
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
             </a>
-            <a href="#pricing" className="text-slate-700 hover:text-blue-600 transition-all duration-300 font-medium hover:scale-105 relative group">
+            {/* <a href="#pricing" className="text-slate-700 hover:text-blue-600 transition-all duration-300 font-medium hover:scale-105 relative group">
               Pricing
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            </a> */}
             <a href="#how-it-works" className="text-slate-700 hover:text-blue-600 transition-all duration-300 font-medium hover:scale-105 relative group">
               How It Works
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
@@ -78,41 +78,41 @@ export default function HomePage() {
             <FeaturesSection />
           </div>
         </section>
-        
+         
         {/* Testimonials Section */}
-        <section id="testimonials" className="relative bg-gradient-to-r from-slate-50 to-blue-50 py-20">
+        {/* <section id="testimonials" className="relative bg-gradient-to-r from-slate-50 to-blue-50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <TestimonialsSection />
           </div>
-        </section>
+        </section> */}
         
         {/* Pricing Section */}
-        <section id="pricing" className="relative">
+        {/* <section id="pricing" className="relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <PricingSection />
           </div>
-        </section>
+        </section> */}
         
         {/* How It Works Section */}
-        <section id="how-it-works" className="relative bg-gradient-to-r from-blue-50 to-indigo-50 py-20 rounded-3xl mx-4">
+        {/* <section id="how-it-works" className="relative bg-gradient-to-r from-blue-50 to-indigo-50 py-20 rounded-3xl mx-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <HowItWorksSection />
           </div>
-        </section>
+        </section> */}
         
         {/* About Section */}
-        <section id="about" className="relative">
+        {/* <section id="about" className="relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <AboutSection />
           </div>
-        </section>
+        </section> */}
         
         {/* Contact Section */}
-        <section id="contact" className="relative bg-gradient-to-r from-slate-50 to-blue-50 py-20">
+        {/* <section id="contact" className="relative bg-gradient-to-r from-slate-50 to-blue-50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <ContactSection />
           </div>
-        </section>
+        </section> */}
       </div>
       
       {/* Modern Footer */}
