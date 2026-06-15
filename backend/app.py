@@ -54,8 +54,8 @@ THRESHOLD = float(os.getenv("THRESHOLD", "0.6"))
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
 students_collection = db[COLLECTION_NAME]
-attendance_db = client["facerecognition_db"]
-attendance_collection = attendance_db["attendance_records"]
+# attendance_db = client["facerecognition_db"]
+attendance_collection = db["attendance_records"]
 
 # OPTIMIZED MODEL MANAGER CLASS
 class ModelManager:
@@ -231,7 +231,7 @@ if __name__ == "__main__":
     # Final model verification before starting
     if model_manager.is_ready():
         logger.info("🎯 All systems ready! Server starting on http://0.0.0.0:5000")
-        app.run(host="0.0.0.0", port=5000, debug=False)  # Set debug=False for production
+        app.run(host="0.0.0.0", port=5000, debug=True)  # Set debug=False for production
     else:
         logger.error("❌ Cannot start server - models not ready")
         exit(1)

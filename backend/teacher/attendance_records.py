@@ -388,6 +388,12 @@ def mark_attendance_with_duplicate_prevention():
             if min_d < threshold and best:
                 student_id = best.get("studentId")
                 student_name = best.get("studentName")
+                confidence = round((1 - min_d) * 100, 1)
+
+                # Checking Model behaviour
+                logger.info(
+                    f"Student={student_name}, Distance={min_d:.4f}, Confidence={confidence}%"
+                )
 
                 # CHECK FOR DUPLICATE BEFORE MARKING
                 if student_id in already_present_students:
@@ -395,7 +401,7 @@ def mark_attendance_with_duplicate_prevention():
                     results.append({
                         "match": {"user_id": student_id, "name": student_name},
                         "distance": round(float(min_d), 4),
-                        "confidence": round((1 - min_d) * 100, 1),
+                        "confidence":confidence,
                         "box": f["box"],
                         "already_marked": True,
                         "status": "duplicate",
@@ -407,7 +413,7 @@ def mark_attendance_with_duplicate_prevention():
                 # MARK ATTENDANCE (Student not yet marked)
                 updated = collection.update_one(
                     {"_id": ObjectId(session_id), "students.student_id": student_id, "students.present": False},
-                    {"$set": {"students.$.present": True, "students.$.marked_at": datetime.now()}}
+                    {"$set": {"students.$.present": True,"students.$.confidence": confidence ,"students.$.marked_at": datetime.now()}}
                 )
 
                 if updated.matched_count > 0 and updated.modified_count > 0:
@@ -416,7 +422,7 @@ def mark_attendance_with_duplicate_prevention():
                     results.append({
                         "match": {"user_id": student_id, "name": student_name},
                         "distance": round(float(min_d), 4),
-                        "confidence": round((1 - min_d) * 100, 1),
+                        "confidence": confidence,
                         "box": f["box"],
                         "already_marked": False,
                         "status": "marked_present",
@@ -433,6 +439,7 @@ def mark_attendance_with_duplicate_prevention():
                                 "student_id": student_id,
                                 "student_name": student_name,
                                 "present": True,
+                                "confidence": confidence,
                                 "marked_at": datetime.now()
                             }
                         }}
@@ -441,7 +448,7 @@ def mark_attendance_with_duplicate_prevention():
                     results.append({
                         "match": {"user_id": student_id, "name": student_name},
                         "distance": round(float(min_d), 4),
-                        "confidence": round((1 - min_d) * 100, 1),
+                        "confidence": confidence,
                         "box": f["box"],
                         "already_marked": False,
                         "status": "marked_present_new",

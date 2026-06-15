@@ -73,17 +73,18 @@ def get_attendance():
                 present = False
                 marked_at = None
 
-                attendance_list.append({
-                    "studentId": str(sid) if sid is not None else "",
-                    "studentName": student.get("studentName") or student.get("student_name"),
-                    "date": str(attendance_doc.get("date")) if attendance_doc else str(date),
-                    "subject": str(attendance_doc.get("subject")) if attendance_doc else str(subject),
-                    "department": str(attendance_doc.get("department")) if attendance_doc else str(department),
-                    "year": str(attendance_doc.get("year")) if attendance_doc else str(year),
-                    "division": str(attendance_doc.get("division")) if attendance_doc else str(division),
-                    "status": "present" if present else "absent",
-                    "markedAt": marked_at
-                })
+            attendance_list.append({
+                "studentId": str(sid) if sid is not None else "",
+                "studentName": student.get("studentName") or student.get("student_name"),
+                "date": str(attendance_doc.get("date")) if attendance_doc else str(date),
+                "subject": str(attendance_doc.get("subject")) if attendance_doc else str(subject),
+                "department": str(attendance_doc.get("department")) if attendance_doc else str(department),
+                "year": str(attendance_doc.get("year")) if attendance_doc else str(year),
+                "division": str(attendance_doc.get("division")) if attendance_doc else str(division),
+                "status": "present" if present else "absent",
+                "confidence": sess.get("confidence", 25) if sess else 25,
+                "markedAt": marked_at
+            })
 
         # Also include any session-only students not in roster (fallback)
         if attendance_doc:
@@ -111,6 +112,7 @@ def get_attendance():
                     "year": str(attendance_doc.get("year")),
                     "division": str(attendance_doc.get("division")),
                     "status": "present" if s.get("present") else "absent",
+                    "confidence": sess.get("confidence", 50),
                     "markedAt": marked
                 })
 
